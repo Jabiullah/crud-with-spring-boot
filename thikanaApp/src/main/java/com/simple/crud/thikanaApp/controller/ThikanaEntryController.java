@@ -3,6 +3,7 @@ package com.simple.crud.thikanaApp.controller;
 
 import com.simple.crud.thikanaApp.entity.ThikanaEntry;
 import com.simple.crud.thikanaApp.service.ThikanaEntryService;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,4 +28,9 @@ public class ThikanaEntryController {
         return thikanaEntryService.getAll();
     }
 
+
+    @GetMapping("id/{myId}")
+    public ThikanaEntry getThikanaEntryById(@PathVariable ObjectId myId){
+       return thikanaEntryService.findById(myId).orElse(null);
+    }
 }
