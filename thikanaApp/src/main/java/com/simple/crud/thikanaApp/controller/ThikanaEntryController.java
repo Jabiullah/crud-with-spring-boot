@@ -6,6 +6,7 @@ import com.simple.crud.thikanaApp.service.ThikanaEntryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -17,6 +18,7 @@ public class ThikanaEntryController {
 
     @PostMapping
     public boolean createEntry(@RequestBody ThikanaEntry myEntry){
+        myEntry.setDate(LocalDateTime.now());
         thikanaEntryService.saveEntry(myEntry);
         return true;
     }

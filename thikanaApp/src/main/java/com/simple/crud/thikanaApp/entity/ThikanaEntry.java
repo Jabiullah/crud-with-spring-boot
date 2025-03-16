@@ -1,9 +1,11 @@
 package com.simple.crud.thikanaApp.entity;
 
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Document(collection = "thikana_entries")
@@ -11,14 +13,12 @@ import java.util.Date;
 public class ThikanaEntry {
     @Id
     //This will be mapped as primary Key.
-    private String id;
+    private ObjectId id;
     private String address;
     private String code;
+    private LocalDateTime date;
 
-
-
-    private Date date;
-    public String getId() {
+    public ObjectId getId() {
         return id;
     }
     public String getAddress() {
@@ -27,24 +27,21 @@ public class ThikanaEntry {
     public String getCode() {
         return code;
     }
-
-    public void setId(String id) {
-        this.id = id;
+    public LocalDateTime getDate() {
+        return date;
     }
+
 
     public void setAddress(String address) {
         this.address = address;
     }
-
     public void setCode(String code) {
         this.code = code;
     }
-
-    public Date getDate() {
-        return date;
+    public void setId(ObjectId id) {
+        this.id = id;
     }
-
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 }
