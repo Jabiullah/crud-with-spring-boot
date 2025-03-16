@@ -33,4 +33,12 @@ public class ThikanaEntryController {
     public ThikanaEntry getThikanaEntryById(@PathVariable ObjectId myId){
        return thikanaEntryService.findById(myId).orElse(null);
     }
+
+    @DeleteMapping("id/{myId}")
+    public boolean deleteThikanaEntryById(@PathVariable ObjectId myId){
+        thikanaEntryService.deleteById(myId);
+        return true;
+    }
+
+    
 }

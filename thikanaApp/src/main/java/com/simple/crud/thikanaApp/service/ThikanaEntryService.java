@@ -26,5 +26,9 @@ public class ThikanaEntryService {
     public Optional<ThikanaEntry> findById(ObjectId id){
         return thikanaEntryRepository.findById(id);
     }
-    
+
+    public void deleteById(ObjectId id){
+        thikanaEntryRepository.deleteById(id);
+    }
+
 }
