@@ -39,6 +39,16 @@ public class ThikanaEntryController {
         thikanaEntryService.deleteById(myId);
         return true;
     }
+    @PutMapping("/id/{id}")
+    public ThikanaEntry updateThikanaById(@PathVariable ObjectId id, @RequestBody ThikanaEntry newEntry){
+        ThikanaEntry old = thikanaEntryService.findById(id).orElse(null);
+        if(old!=null){
+            old.setAddress(newEntry.getAddress() !=null && !newEntry.getAddress().equals("") ? newEntry.getAddress() : old.getAddress());
+            old.setCode(newEntry.getCode() !=null && !newEntry.getCode().equals("") ? newEntry.getCode() : old.getCode());
+        }
+        thikanaEntryService.saveEntry(old);
+        return old;
+    }
 
-    
+
 }
