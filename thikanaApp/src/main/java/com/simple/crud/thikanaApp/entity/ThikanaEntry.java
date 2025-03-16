@@ -1,5 +1,10 @@
 package com.simple.crud.thikanaApp.entity;
 
+
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document
+//We need to map this with our db which will be as 'collection'. That's why we have added this document annotation.
 public class ThikanaEntry {
     private String id;
     private String address;
