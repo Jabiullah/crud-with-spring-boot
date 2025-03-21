@@ -2,9 +2,13 @@ package com.simple.crud.thikanaApp.controller;
 
 
 import com.simple.crud.thikanaApp.entity.ThikanaEntry;
+import com.simple.crud.thikanaApp.entity.User;
 import com.simple.crud.thikanaApp.service.ThikanaEntryService;
+import com.simple.crud.thikanaApp.service.UserService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -16,6 +20,8 @@ public class ThikanaEntryController {
 
     @Autowired
     private ThikanaEntryService thikanaEntryService;
+    @Autowired
+    private UserService userService;
 
     @PostMapping
     public boolean createEntry(@RequestBody ThikanaEntry myEntry){
@@ -29,9 +35,15 @@ public class ThikanaEntryController {
     }
 
 
-    @GetMapping("id/{myId}")
-    public ThikanaEntry getThikanaEntryById(@PathVariable ObjectId myId){
-       return thikanaEntryService.findById(myId).orElse(null);
+    @GetMapping("{phoneNumber}")
+    public ResponseEntity<?> getAllThikanaEntriesOfUser(@PathVariable String phoneNumber){
+        User byPhoneNumber = userService.findByPhoneNumber(phoneNumber);
+        
+        List<ThikanaEntry> all = byPhoneNumber.getThikanaEntries();
+        if(all != null && !all.isEmpty()){
+           return new ResponseEntity<>(all, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("id/{myId}")
