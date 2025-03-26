@@ -3,6 +3,7 @@ package com.simple.crud.thikanaApp.entity;
 
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -13,6 +14,8 @@ import java.util.Date;
 
 @Document(collection = "thikana_entries")
 @Data
+@NoArgsConstructor
+
 //We need to map this with our db which will be as 'collection'. That's why we have added this document annotation.
 public class ThikanaEntry {
     @Id

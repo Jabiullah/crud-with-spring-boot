@@ -23,12 +23,18 @@ public class ThikanaEntryController {
     @Autowired
     private UserService userService;
 
-    @PostMapping
-    public boolean createEntry(@RequestBody ThikanaEntry myEntry){
-        myEntry.setDate(LocalDateTime.now());
-        thikanaEntryService.saveEntry(myEntry);
-        return true;
+    @PostMapping("{phoneNumber}")
+    public boolean createEntry(@RequestBody ThikanaEntry myEntry, @PathVariable String phoneNumber){
+        try {
+            myEntry.setDate(LocalDateTime.now());
+            thikanaEntryService.saveEntry(myEntry,phoneNumber);
+            return true;
+        }catch (Exception e){
+            System.out.println("Create Entry Exception: "+e);
+            return false;
+        }
     }
+
     @GetMapping
     public List<ThikanaEntry> getAll(){
         return thikanaEntryService.getAll();
@@ -38,7 +44,7 @@ public class ThikanaEntryController {
     @GetMapping("{phoneNumber}")
     public ResponseEntity<?> getAllThikanaEntriesOfUser(@PathVariable String phoneNumber){
         User byPhoneNumber = userService.findByPhoneNumber(phoneNumber);
-        
+
         List<ThikanaEntry> all = byPhoneNumber.getThikanaEntries();
         if(all != null && !all.isEmpty()){
            return new ResponseEntity<>(all, HttpStatus.OK);
@@ -46,14 +52,18 @@ public class ThikanaEntryController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping("id/{myId}")
-    public boolean deleteThikanaEntryById(@PathVariable ObjectId myId){
-        thikanaEntryService.deleteById(myId);
+    @DeleteMapping("id/{phoneNumber}/{myId}")
+    public boolean deleteThikanaEntryById(@PathVariable ObjectId myId, @PathVariable String phoneNumber){
+        thikanaEntryService.deleteById(myId, phoneNumber);
         return true;
     }
-    @PutMapping("/id/{id}")
-    public ThikanaEntry updateThikanaById(@PathVariable ObjectId id, @RequestBody ThikanaEntry newEntry){
+    @PutMapping("/id/{phoneNumber}/{id}")
+    public ThikanaEntry updateThikanaById(
+            @PathVariable ObjectId id,
+            @RequestBody ThikanaEntry newEntry,
+            @PathVariable String phoneNumber){
         ThikanaEntry old = thikanaEntryService.findById(id).orElse(null);
+
         if(old!=null){
             old.setAddress(newEntry.getAddress() !=null && !newEntry.getAddress().equals("") ? newEntry.getAddress() : old.getAddress());
             old.setCode(newEntry.getCode() !=null && !newEntry.getCode().equals("") ? newEntry.getCode() : old.getCode());
